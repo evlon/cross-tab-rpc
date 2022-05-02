@@ -2,10 +2,11 @@
 发布一个网页的API，实现另一个网页（可以不同域名，但是必须同一个浏览器）访问。
 
 ## Client 网页
+```
 let rpc = new CrossTabRpc("client");
 let alive = await rpc.call("alive",[],'qcc',500);
 let info = await rpc.call('query',[name],'qcc',5000);
-
+```
 
 ## Server 网页
 ```
