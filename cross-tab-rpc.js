@@ -82,4 +82,4 @@ function CrossTabRpc(tabName) {
 
 }
 
-$('body').append(` <iframe id="yulinrpc" src="https://hw.p0q.top/moyulin/bridge.html" style="width:0px;height:0px;display:hidden"></iframe>`);
+$('body').append(` <iframe id="yulinrpc" src="https://evlon.github.io/cross-tab-rpc/bridge.html" style="width:0px;height:0px;display:hidden"></iframe>`);
