@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        window.addEventListener("storage", function (ev) {
+            if (ev.key == 'message') {
+                window.parent.postMessage(ev.newValue, '*');
+            }
+        });
+
+        function message_broadcast(message) {
+            localStorage.setItem('message', JSON.stringify(message));
+            localStorage.removeItem('message');
+        }
+
+        window.addEventListener('message', function (e) {
+            let { data, source, origin } = e;
+            // 接受到父文档的消息后，广播给其他的同源页面
+            message_broadcast(data);
+        });
+    </script>
+</body>
+
+</html>
