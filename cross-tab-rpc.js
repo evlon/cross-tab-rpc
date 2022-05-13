@@ -48,8 +48,8 @@ function CrossTabRpc(tabName) {
                     // var rdata = JSON.parse(ev.data);
                     let fn = scope[dataJson.fn];
                     if (fn) {
-                        fn(dataJson.data);
                         delete scope[dataJson.fn];
+                        fn(dataJson.data);                        
                     }
                     else {
                         console.warn('resp waring, receive resp but not found req context.', dataJson);
@@ -67,9 +67,11 @@ function CrossTabRpc(tabName) {
     this.call = async function (method, args, targetTab, timeout) {
         let promise = new Promise((resove, reject) => {
             let data = { method: method, args: args }
-            var callData = { fromOrigin: location.origin, type: 'req', from: this.tabName, to: targetTab, data: data, fn: getNextCallbackName(resove) };
+            let timeoutId = setTimeout(() => reject('timeout'), timeout || 20000);
+            let newResove = (data)=>{clearTimeout(timeoutId);resove(data);};
+            var callData = { fromOrigin: location.origin, type: 'req', from: this.tabName, to: targetTab, data: data, fn: getNextCallbackName(newResove) };
             document.querySelector('#yulinrpc').contentWindow.postMessage(JSON.stringify(callData), "*");
-            setTimeout(() => reject('timeout'), timeout || 20000);
+            
         })
         return promise;
     };
